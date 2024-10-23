@@ -1,12 +1,3 @@
-psect datas
-timer:           ; Variable for outer loop counter
-    DS 1
-temp:            ; Variable for shifting value
-    DS 1
-delay_count_outer: ; Outer delay loop variable
-    DS 1
-delay_count_inner: ; Inner delay loop variable
-    DS 1
 
     psect code
 MAIN_LED:

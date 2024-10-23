@@ -1,3 +1,14 @@
+psect datas
+timer:           ; Variable for outer loop counter
+    DS 1
+temp:            ; Variable for shifting value
+    DS 1
+delay_count_outer: ; Outer delay loop variable
+    DS 1
+inner: ; Inner delay loop variable
+    DS 1
+
+    
 ;----------------------------------------
 ; macros
 ;----------------------------------------
@@ -32,7 +43,7 @@ output macro arg1, arg2
     bcf arg1, arg2
     bank0
     endm
-
+    
 ;----------------------------------------
 ; Initialization routine
 ;----------------------------------------
