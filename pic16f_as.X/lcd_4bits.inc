@@ -11,11 +11,13 @@ E   macro
 ;    PORTC, 2
 ;    endm
     
-
+    psect code
 LCD_INIT:
     bsf	    STATUS, 5
     clrf    TRISD; output
     clrf    TRISC; output
     bcf	    STATUS, 5
     
+    
     return
+    
