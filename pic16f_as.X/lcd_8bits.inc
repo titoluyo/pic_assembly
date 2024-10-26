@@ -61,6 +61,8 @@ LCD_INIT:
     SEND
     movlw   'O'
     SEND
+    movlw   '*'
+    SEND
 
 LCD_LOOP:
     clrf    PORTD

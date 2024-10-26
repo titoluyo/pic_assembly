@@ -156,19 +156,19 @@ MAIN_LCD:
 ; Delay Subroutine for Microseconds
 DelayUs:
     ; Adjust the number of iterations for the desired delay
-    movlw   50                ; Load W with 50 iterations (50us approx.)
-    movwf   0x22                 ; Store in i
+    movlw   50			; Load W with 50 iterations (50us approx.)
+    movwf   0x22                ; Store in i
 DelayLoopUs:
-    decfsz  0x22, F              ; Decrement i and skip if zero
-    goto    DelayLoopUs       ; Loop again
+    decfsz  0x22, F             ; Decrement i and skip if zero
+    goto    DelayLoopUs		; Loop again
     return
 
 ; Delay Subroutine for Milliseconds
 DelayMs:
     ; Adjust the number of iterations for the desired delay
-    movlw   250               ; Load W with 250 iterations (1 ms approx.)
-    movwf   0x22                 ; Store in i
+    movlw   250			; Load W with 250 iterations (1 ms approx.)
+    movwf   0x22                ; Store in i
 DelayLoopMs:
-    decfsz  0x22, F              ; Decrement i and skip if zero
-    goto    DelayLoopMs       ; Loop again
+    decfsz  0x22, F             ; Decrement i and skip if zero
+    goto    DelayLoopMs		; Loop again
     return

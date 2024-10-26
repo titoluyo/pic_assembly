@@ -1,6 +1,6 @@
 #include <xc.inc>
 
-; Definición de pines
+; Pin definition
 RS  macro
     PORTC, 3
     endm
@@ -12,7 +12,7 @@ E   macro
     endm
 
 /*
-; Variables declaradas en la sección de datos
+; Variables declaration in data section
 psect data_section, class=UDATA, space=1
 GUARDAR_DATO:
     DS 1
@@ -28,18 +28,17 @@ DATO:
     DS 1
 */
 
-    ; Inicio del código
 ;psect text_section, class=CODE, reloc=2
     psect code
 LCD_INIT:
     ; Configurar TRISD y TRISC como salidas
     bank1
-    clrf    TRISD           ; Salida
-    clrf    TRISC           ; Salida
+    clrf    TRISD           ; Output
+    clrf    TRISC           ; Output
     bank0
-    call    Retardo_1ms     ; Espera 1 ms
-    bcf     RS              ; Modo comando
-    movlw   0x30            ; Configurar bits de datos
+    call    Delay_1ms       ; Wait 1 ms
+    bcf     RS              ; Command Mode
+    movlw   0x30            ; Configure data bits
     call    LCD_CONFIG
     call    Retardo_1ms
     movlw   0x30
@@ -48,12 +47,12 @@ LCD_INIT:
     movlw   0x30
     call    LCD_CONFIG
     call    Retardo_1ms
-    movlw   0x20            ; Configuración en 4 bits
+    movlw   0x20            ; 4 bits mode configuration
     call    LCD_CONFIG
-    call    LCD_2LINEAS      ; Configuración de 2 líneas
-    call    LCD_DISPLAY      ; Encender display
-    call    LCD_BORRAR       ; Borrar pantalla
-    call    LCD_INCR         ; Incremento de cursor
+    call    LCD_2LINEAS      ; 2 lines configuration
+    call    LCD_DISPLAY      ; Turn on display
+    call    LCD_BORRAR       ; Clear screen
+    call    LCD_INCR         ; Cursor increment
     return
 
 LCD_LINEA2:
@@ -81,8 +80,8 @@ LCD_2LINEAS:
     goto    LCD_COMANDO
 
 LCD_COMANDO:
-    movwf   COMANDO         ; Guardar comando
-    movf    COMANDO,W       ; Cargar comando en W
+    movwf   COMANDO         ; Save command
+    movf    COMANDO,W       ; Load command into W register
     call    LCD_CONFIG
     swapf   COMANDO,F       ; Intercambiar bits del comando
     movf    COMANDO,W
@@ -131,7 +130,7 @@ ENABLE:
     return
 
 ; Subrutina de retardo de 1ms
-Retardo_1ms:
+Delay_1ms:
     movlw   250
     movwf   CUENTA
 BUCLE:
