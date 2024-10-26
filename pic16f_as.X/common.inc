@@ -7,40 +7,51 @@ delay_count_outer: ; Outer delay loop variable
     DS 1
 inner: ; Inner delay loop variable
     DS 1
-
+GUARDAR_DATO:
+    DS 1
+COMANDO:
+    DS 1
+DATA_GUARDAR:
+    DS 1
+DATAS:
+    DS 1
+CUENTA:
+    DS 1
+DATO:
+    DS 1
     
 ;----------------------------------------
 ; macros
 ;----------------------------------------
 bank0 macro
-    bcf STATUS, 6 ; RP1=0
-    bcf STATUS, 5 ; RP0=0
+    bcf	    STATUS, 6	    ; RP1=0
+    bcf	    STATUS, 5	    ; RP0=0
     endm
 
 bank1 macro
-    bcf STATUS, 6 ; RP1=0
-    bsf STATUS, 5 ; RP0=1
+    bcf	    STATUS, 6	    ; RP1=0
+    bsf	    STATUS, 5	    ; RP0=1
     endm
 
 bank2 macro
-    bsf STATUS, 6 ; RP1=1
-    bcf STATUS, 5 ; RP0=0
+    bsf	    STATUS, 6	    ; RP1=1
+    bcf	    STATUS, 5	    ; RP0=0
     endm
 
 bank3 macro
-    bsf STATUS, 6 ; RP1=1
-    bsf STATUS, 5 ; RP0=1
+    bsf	    STATUS, 6	    ; RP1=1
+    bsf	    STATUS, 5	    ; RP0=1
     endm
 
 input macro arg1, arg2
     bank1
-    bsf arg1, arg2
+    bsf	    arg1, arg2
     bank0
     endm
 
 output macro arg1, arg2
     bank1
-    bcf arg1, arg2
+    bcf	    arg1, arg2
     bank0
     endm
     
@@ -64,7 +75,7 @@ Board_init:
     movwf   PORTD
     
     // Set "latch output enable" ON for all three 74HC573 latches
-    bcf	    PORTA, 3; RA3=0
+    bcf	    PORTA, 3	    ; RA3=0
     
     // Latch 1
     bsf	    PORTC, 5
@@ -79,7 +90,7 @@ Board_init:
     bcf	    PORTC, 3
 
     // Latch 3
-    movlw   0x00; set all 8 PORTD pins to 0
+    movlw   0x00	    ; set all 8 PORTD pins to 0
     movwf   PORTD
     bsf	    PORTC, 4
     nop
@@ -87,7 +98,7 @@ Board_init:
     bcf	    PORTC, 4
 
     // Latch 3
-    movlw   0xFF; set all 8 PORTD pins to 1
+    movlw   0xFF	    ; set all 8 PORTD pins to 1
     movwf   PORTD
     bsf	    PORTC, 2
     bcf	    PORTE, 0
