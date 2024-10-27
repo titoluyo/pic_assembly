@@ -3,6 +3,7 @@
 #include "led.inc"
 #include "lcd_8bits.inc"
 #include "pwm.inc"
+#include "stepper.inc"
 
 ; CONFIG
   CONFIG  FOSC = XT             ; Oscillator Selection bits (HS oscillator)
@@ -22,7 +23,8 @@ PROGRAMA:
     ;goto    MAIN_LED
     ;goto    MAIN_LCD
     ;goto    LCD_INIT
-    goto    PWM_INIT
+    ;goto    PWM_INIT
+    goto    STEPPER
     
     psect code
 BLINK:
@@ -39,11 +41,8 @@ BLINK_LOOP:
     call    Delay2
     bcf	    PORTD, 0
     call    Delay2
-    goto BLINK_LOOP
+    goto    BLINK_LOOP
     
-
-	
-	
     end			    ; End of the program
 
 

@@ -111,19 +111,26 @@ Board_init:
     ; Delay Subroutine 
 Delay2:
     ; Outer loop counter (repeat for a long delay)
-    movlw 0x60
-    movwf 0x22           ; Outer loop counter in memory location 0x22
+    movlw   0x60
+    movwf   0x22           ; Outer loop counter in memory location 0x22
+    goto    DelayOuterLoop
+
+Delay1:
+    ; Outer loop counter (repeat for a long delay)
+    movlw   0x02
+    movwf   0x22           ; Outer loop counter in memory location 0x22
+    goto    DelayOuterLoop
 
 DelayOuterLoop:
     ; Inner loop for fine-tuning delay
-    movlw 0xFF
-    movwf 0x23           ; Inner loop counter in memory location 0x23
+    movlw   0xFF
+    movwf   0x23           ; Inner loop counter in memory location 0x23
 
 DelayInnerLoop:
-    decfsz 0x23, F       ; Decrement inner loop counter, skip if zero
-    goto DelayInnerLoop  ; Loop until 0x23 becomes 0
+    decfsz  0x23, F       ; Decrement inner loop counter, skip if zero
+    goto    DelayInnerLoop  ; Loop until 0x23 becomes 0
 
-    decfsz 0x22, F       ; Decrement outer loop counter, skip if zero
-    goto DelayOuterLoop  ; Loop until 0x22 becomes 0
+    decfsz  0x22, F       ; Decrement outer loop counter, skip if zero
+    goto    DelayOuterLoop  ; Loop until 0x22 becomes 0
 
     return               ; Return from delay subroutine

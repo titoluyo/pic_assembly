@@ -24,7 +24,7 @@ FOR_LOOP_LED:
     movwf   PORTD          ; Output W to PORTD (turn on LEDs)
 
     ; Delay for approximately
-    call Delay2
+    call Delay1
 
     ; Right-shift 'temp' (temp >>= 1)
     rrf temp, F          ; Rotate Right 'temp' file register

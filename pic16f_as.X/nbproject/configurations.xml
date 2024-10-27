@@ -8,6 +8,7 @@
       <itemPath>lcd_4bits.inc</itemPath>
       <itemPath>led.inc</itemPath>
       <itemPath>pwm.inc</itemPath>
+      <itemPath>stepper.inc</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -129,6 +130,7 @@
         <property key="event.recorder.debugger.behavior" value="Running"/>
         <property key="event.recorder.enabled" value="false"/>
         <property key="event.recorder.scvd.files" value=""/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>
