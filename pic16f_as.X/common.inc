@@ -117,13 +117,13 @@ Delay2:
 
 Delay1:
     ; Outer loop counter (repeat for a long delay)
-    movlw   0x02
+    movlw   0x10
     movwf   0x22           ; Outer loop counter in memory location 0x22
     goto    DelayOuterLoop
 
 DelayOuterLoop:
     ; Inner loop for fine-tuning delay
-    movlw   0xFF
+    movlw   0xCF
     movwf   0x23           ; Inner loop counter in memory location 0x23
 
 DelayInnerLoop:
