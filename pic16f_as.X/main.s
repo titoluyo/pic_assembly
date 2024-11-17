@@ -4,7 +4,8 @@
 #include "lcd_8bits.inc"
 #include "pwm.inc"
 #include "stepper.inc"
-
+#include "switch_pulse.inc"
+    
 ; CONFIG
   CONFIG  FOSC = XT             ; Oscillator Selection bits (HS oscillator)
   CONFIG  WDTE = OFF            ; Watchdog Timer Enable bit (WDT disabled)
@@ -21,10 +22,11 @@ PROGRAMA:
     ;goto    BLINK
     ;goto    INICIO_LCD
     ;goto    MAIN_LED
-    ;goto    MAIN_LCD
+    goto    LCD_INIT
     ;goto    LCD_INIT
     ;goto    PWM_INIT
-    goto    STEPPER
+    ;goto    STEPPER
+    ;goto    INICIO_PULSADOR
     
     psect code
 BLINK:
@@ -34,7 +36,9 @@ BLINK:
     clrf    TRISC           ; Output
     bank0
     bcf	    PORTA, 3	    ; RA3=0
-    bsf	    PORTC, 5; RC5=1
+    bsf	    PORTC, 5	    ; RC5=1
+    movlw   0xFF
+    movwf   PORTD
     ;call    Delay_1ms     ; Wait 1 ms
 BLINK_LOOP:
     bsf	    PORTD, 0

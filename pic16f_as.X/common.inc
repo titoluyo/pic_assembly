@@ -111,7 +111,7 @@ Board_init:
     ; Delay Subroutine 
 Delay2:
     ; Outer loop counter (repeat for a long delay)
-    movlw   0x60
+    movlw   0xFF
     movwf   0x22           ; Outer loop counter in memory location 0x22
     goto    DelayOuterLoop
 
