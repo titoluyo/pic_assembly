@@ -18,7 +18,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>main_03_7seg_basic_demo.c</itemPath>
+      <itemPath>main_02_4x4Keyboard.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
