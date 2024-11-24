@@ -60,6 +60,7 @@ output macro arg1, arg2
 ;----------------------------------------
     psect code
 Board_init:
+    ; board init
     ; Select Bank 1 to configure TRIS registers
     bank1
     ; Set all TRIS registers to 0 (set all pins as outputs)
@@ -110,12 +111,14 @@ Board_init:
 ;-----------------
     ; Delay Subroutine 
 Delay2:
+    ; delay 2
     ; Outer loop counter (repeat for a long delay)
     movlw   0xFF
     movwf   0x22           ; Outer loop counter in memory location 0x22
     goto    DelayOuterLoop
 
 Delay1:
+    ; delay 1
     ; Outer loop counter (repeat for a long delay)
     movlw   0x10
     movwf   0x22           ; Outer loop counter in memory location 0x22

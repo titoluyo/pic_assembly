@@ -1,10 +1,12 @@
 #include <xc.inc>
+
 #include "common.inc"
 #include "led.inc"
 #include "lcd_8bits.inc"
 #include "pwm.inc"
 #include "stepper.inc"
 #include "switch_pulse.inc"
+#include "4x4keyboard.inc"
     
 ; CONFIG
   CONFIG  FOSC = XT             ; Oscillator Selection bits (HS oscillator)
@@ -20,15 +22,17 @@
     psect programa, class = CODE, reloc=2
 PROGRAMA:
     ;goto    BLINK
-    ;goto    INICIO_LCD
     ;goto    MAIN_LED
-    goto    LCD_INIT
     ;goto    LCD_INIT
     ;goto    PWM_INIT
-    ;goto    STEPPER
+    goto    STEPPER
     ;goto    INICIO_PULSADOR
+    ;goto    INICIO_KEYBOARD
     
     psect code
+START:
+    nop
+    goto    STEPPER
 BLINK:
     bank1
     clrf    TRISA           ; Output

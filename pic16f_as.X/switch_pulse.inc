@@ -16,11 +16,11 @@ INICIO_PULSADOR:
     
     bcf	    PORTA, 3	; RA3=0 (!OE)
     bsf	    PORTC, 5	; RC5=1 (enable LEDs latch)
-START:
+START_PULSADOR:
     btfsc   SWT		; SWITCH == 0 ? -> 1
     goto    APAGAR
     bsf	    LED
-    goto    START
+    goto    START_PULSADOR
 APAGAR:
     bcf	    LED
-    goto    START
+    goto    START_PULSADOR

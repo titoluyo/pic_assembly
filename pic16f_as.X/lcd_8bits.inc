@@ -18,7 +18,7 @@ SEND	macro
 	call	Delay2
 	endm
 
-    
+    psect code
 LCD_INIT:
     bank1
     clrf    TRISD
