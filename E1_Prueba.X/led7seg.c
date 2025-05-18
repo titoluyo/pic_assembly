@@ -34,12 +34,17 @@ const unsigned char LED[10]=
 
 void Led7segLoop(void) {
     if (PORTBbits.RB0 == 1) {
-        for(int i=0; i<10; i++) {
-            LATD = LED[i];
-            __delay_ms(1000);
-        }
+        LATD = 0B11000000;
+        __delay_ms(1000);
         LATD = 0;
     }
+//    if (PORTBbits.RB0 == 1) {
+//        for(int i=0; i<10; i++) {
+//            LATD = LED[i];
+//            __delay_ms(1000);
+//        }
+//        LATD = 0;
+//    }
     if (PORTBbits.RB1 == 1) {
         for(int i=9; i>=0; i--) {
             LATD = LED[i];
