@@ -5,6 +5,8 @@
 #include "configuration.h"
 #include "semaforo.h"
 #include "led7seg.h"
+#include "mux2.h"
+#include "lcd16x2.h"
 
 // TRISX - input:1, output:0
 // LATX  - Escribir
@@ -17,13 +19,17 @@
 void main(void) {
     // SemaforoInit();
     // InterruptorInit();
-    Led7segInit();
+    // Led7segInit();
+    // Mux2_init();
+    Lcd16x2_init();
     
     
     while(1) {
         // InterruptorLoop();
         // SemaforoLoop();
-        Led7segLoop();
+        // Led7segLoop();
+        // Mux2_loop();
+        Lcd16x2_loop();
     }    
     return;
 }

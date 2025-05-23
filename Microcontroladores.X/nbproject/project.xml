@@ -3,14 +3,12 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>E1_Prueba</name>
-            <creation-uuid>cdc0b6da-62fe-487a-898e-d701b2bb80e5</creation-uuid>
+            <name>Microcontroladores</name>
+            <creation-uuid>914cb82f-97b6-4331-a957-9ef0e209afc9</creation-uuid>
             <make-project-type>0</make-project-type>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
-            <sourceRootList>
-                <sourceRootElem>.</sourceRootElem>
-            </sourceRootList>
+            <sourceRootList/>
             <confList>
                 <confElem>
                     <name>default</name>
