@@ -1,7 +1,7 @@
 #include <xc.h>
 // #define _XTAL_FREQ 48000000
 #ifndef _XTAL_FREQ
-#define _XTAL_FREQ 4000000  // 4Mhz 
+#define _XTAL_FREQ 8000000  // 8Mhz 
 #endif
 
 #define USE_CGRAM_LCD
@@ -24,20 +24,20 @@
 #define D6_DIR TRISDbits.TRISD6
 #define D7_DIR TRISDbits.TRISD7
 
-void Lcd_Port(char a);
-void Lcd_Cmd(char a);
-void Lcd_Clear(void);
-void Lcd_Set_Cursor(char a, char b);
-void Lcd_Init(void);
-void Lcd_Write_Char(char a);
-void Lcd_Write_String(const char *a);
-void Lcd_Shift_Right(void);
-void Lcd_Shift_Left(void);
-void Lcd_Blink(void);
-void Lcd_NoBlink(void);
+void L1Lcd_Port(char a);
+void L1Lcd_Cmd(char a);
+void L1Lcd_Clear(void);
+void L1Lcd_Set_Cursor(char a, char b);
+void L1Lcd_Init(void);
+void L1Lcd_Write_Char(char a);
+void L1Lcd_Write_String(const char *a);
+void L1Lcd_Shift_Right(void);
+void L1Lcd_Shift_Left(void);
+void L1Lcd_Blink(void);
+void L1Lcd_NoBlink(void);
 
 #ifdef USE_CGRAM_LCD
-void Lcd_CGRAM_CreateChar(char add, const char* chardata);
-void Lcd_CGRAM_Init(void);
-void Lcd_CGRAM_Close(void);
+void L1Lcd_CGRAM_CreateChar(char add, const char* chardata);
+void L1Lcd_CGRAM_Init(void);
+void L1Lcd_CGRAM_Close(void);
 #endif

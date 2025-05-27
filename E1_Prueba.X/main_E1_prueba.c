@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <pic18f4550.h>
 #include "configuration.h"
-#include "semaforo.h"
-#include "led7seg.h"
-#include "mux2.h"
+//#include "semaforo.h"
+//#include "led7seg.h"
+//#include "mux2.h"
 #include "lcd16x2.h"
 
 // TRISX - input:1, output:0

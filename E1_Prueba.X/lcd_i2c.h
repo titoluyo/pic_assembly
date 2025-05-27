@@ -9,7 +9,7 @@
 #ifndef LCD_I2C_H
 #define	LCD_I2C_H
 
-#define ADDRESS_LCD 0x4E
+#define ADDRESS_LCD 0x4E //0x27 
 
 void Lcd_Init(void);
 void Lcd_Cmd(unsigned char cmd);

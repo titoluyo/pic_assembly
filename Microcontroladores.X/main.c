@@ -1,161 +1,79 @@
-/********************************************************************************************************
-*********************************************************************************************************
-*
-* Hardware Environment:	PIC-EK
-* Build Environment   : MPLAB IDE or MPLAB X IDE + PICC18_v8.35
-* Microcontroller     : PIC18F4550
-* Version             : V1.0
-* By                  : JEFF
-* DATE				  : 20150320
-*
-*(c) Copyright 2010-2018, Logifind Tech CO.,LTD
-*http://www.logifind.com
-*All Rights Reserved
-*
-*********************************************************************************************************
-********************************************************************************************************/
-#include <pic18.h>        //head file
+#include <xc.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <string.h>
 
-__CONFIG(1,HS) ;  //EXT 20MHz,No PLL
-__CONFIG(2,WDTDIS) ;      //WDT OFF
-__CONFIG(3,PBADDIS) ;     //PORTB<4:0> configured as digital I/O on RESET 
-__CONFIG(4,LVPDIS&XINSTDIS) ;     //Low Voltage Programming Disabled ,Disable extended instruction set (Legacy mode) 
+// CONFIGURATION BITS (adjust as needed for your project)
+#pragma config FOSC = HS        // Oscillator Selection bits
+#pragma config WDT = OFF      // Watchdog Timer Enable bits
+#pragma config LVP = OFF        // Low-voltage programming disable
 
-#define RS  RB5 //Data or Instrument Select
-#define RW  RB4 //Write or Read
-#define E  RB3 //6800 mode Enable single
+#define _XTAL_FREQ 8000000  // 8 MHz crystal frequency
 
+// LCD control pins (adjust as needed)
+#define LCD_RS LATBbits.LATB5
+#define LCD_RW LATBbits.LATB4
+#define LCD_EN LATBbits.LATB3
+#define LCD_DATA LATD          // Assuming LCD data pins on PORTD
 
-
-void delay(unsigned int t)
-{
-	unsigned int i,j;
-	for(i=0;i<t;i++)
-	{
-		for(j=0;j<10;j++);		
-	}
+void lcd_pulse_enable(void) {
+    LCD_EN = 1;
+    __delay_us(1);
+    LCD_EN = 0;
+    __delay_us(100);
 }
 
-
-void lcd_wait_busy(void)
-{  
-	TRISD7=1;	   			
-   	RS=0;			   
-   	RW=1;			   //SELECT READ
-   	E=1;				   
-   	while(RD7==1);         
-   	E=0;				   
-   	TRISD7=0;
+void lcd_cmd(uint8_t cmd) {
+    LCD_RS = 0;
+    LCD_RW = 0; // Force write
+    LCD_DATA = cmd;
+    lcd_pulse_enable();
+    __delay_ms(2); // Some commands require longer delays
 }
 
-
-void lcd_write_com(unsigned char combuf)
-{  
-	RS=0;          	
-   	RW=0;           	//SELECT WRITE
-   	PORTD=combuf;         		
-   	E=1;	            
-   	asm("NOP");
-   	E=0;	            
+void lcd_data(uint8_t data) {
+    LCD_RS = 1;
+    LCD_RW = 0; // Force write
+    LCD_DATA = data;
+    lcd_pulse_enable();
+    __delay_us(100);
 }
 
-
-void lcd_write_com_busy(unsigned char combuf)
-{  
-	lcd_wait_busy();				
-   	lcd_write_com(combuf); 	
+void lcd_init(void) {
+    __delay_ms(20);         // Wait after power on
+    LCD_RW = 0;
+    __delay_ms(20);
+    lcd_cmd(0x38);          // Function set: 8-bit, 2 lines, 5x8 dots
+    lcd_cmd(0x08);          // Display off
+    lcd_cmd(0x01);          // Display clear
+    __delay_ms(2);
+    lcd_cmd(0x06);          // Entry mode: increment, no shift
+    lcd_cmd(0x0C);          // Display on, cursor off
 }
 
-
-void lcd_write_data(unsigned char databuf)
-{  
-	lcd_wait_busy();	
-   	RS=1;          	
-   	RW=0;           	
-   	PORTD=databuf;      	
-   	E=1;	            
-   	asm("NOP");
-   	E=0;	          
+void lcd_set_cursor(uint8_t row, uint8_t col) {
+    uint8_t address = (row == 0) ? col : (0x40 + col);
+    lcd_cmd(0x80 | address);
 }
 
-
-void lcd_write_address(unsigned char x,unsigned char y)
-{  
-	x&=0x0f;			//0-15
-   	y&=0x01;			//0-1
-   	if(y==0x00)
-      	lcd_write_com_busy(x|0x80);	   
-   	else
-      	lcd_write_com_busy((x+0x40)|0x80);	   
+void lcd_write_string(const char* str, uint8_t row) {
+    lcd_set_cursor(row, 0);
+    while (*str) {
+        lcd_data(*str++);
+    }
 }
 
+void main(void) {
+    // Setup ports (assume PORTB for control, PORTD for data)
+    TRISB = 0x00;
+    LATB = 0x00;
+    TRISD = 0x00;
+    LATD = 0x00;
 
-void lcdreset(void)
-{  
-	delay(150); 
-	lcd_write_com(0x38);
-   	delay(50); 
-	lcd_write_com(0x38);
-   	delay(50); 
-	lcd_write_com(0x38);
-   	lcd_write_com_busy(0x38);       
-   	lcd_write_com_busy(0x08);		
-   	lcd_write_com_busy(0x01);		
-   	lcd_write_com_busy(0x06);		
-   	lcd_write_com_busy(0x0c);		
-}  	
+    lcd_init();
 
-	
-void lcd_write_char(unsigned char x,unsigned char y,unsigned char buf)
-{  		
-		lcd_write_address(x,y); 		
-   	lcd_write_data(buf);		    
-} 
+    lcd_write_string("HELLO", 0);
+    lcd_write_string("WORLD3", 1);
 
-
-
-void main(void)
-{	  
-	OSCCON=0X00;    		
-	ADCON1=0X0f;            	
-  	TRISB=0B11000111;   	
-	TRISD=0B00000000;   		   
-	lcdreset();	 													
-   	lcd_write_char(0,0,0x41);   //A
-   	lcd_write_char(1,0,0x42);   //B
-   	lcd_write_char(2,0,0x43);   //C
-   	lcd_write_char(3,0,0x44);   //D
-   	lcd_write_char(4,0,0x45);   //E
-   	lcd_write_char(5,0,0x46);   //F
-   	lcd_write_char(6,0,0x47);   //G
-   	lcd_write_char(7,0,0x48);   //H
-   	lcd_write_char(8,0,0x49);   //I
-   	lcd_write_char(9,0,0x4A);   //J
-   	lcd_write_char(10,0,0x4B);   //K
-   	lcd_write_char(11,0,0x4C);   //L
-   	lcd_write_char(12,0,0x4D);   //M
-   	lcd_write_char(13,0,0x4E);   //N
-   	lcd_write_char(14,0,0x4F);   //O
-   	lcd_write_char(15,0,0x50);   //P
-   	
-   	lcd_write_char(0,1,0x61);   //a
-   	lcd_write_char(1,1,0x62);   //b
-   	lcd_write_char(2,1,0x63);   //c
-   	lcd_write_char(3,1,0x64);   //d
-   	lcd_write_char(4,1,0x65);   //e
-   	lcd_write_char(5,1,0x66);   //f
-   	lcd_write_char(6,1,0x67);   //g
-   	lcd_write_char(7,1,0x68);   //h
-   	lcd_write_char(8,1,0x69);   //i
-   	lcd_write_char(9,1,0x6A);   //j
-   	lcd_write_char(10,1,0x6B);   //k
-   	lcd_write_char(11,1,0x6C);   //l
-   	lcd_write_char(12,1,0x6D);   //m
-   	lcd_write_char(13,1,0x6E);   //n
-   	lcd_write_char(14,1,0x6F);   //o
-   	lcd_write_char(15,1,0x70);   //p
-	while(1)
-	{		
-			
-	}  
+    while (1);
 }
