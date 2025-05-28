@@ -1,5 +1,4 @@
 #include <xc.h>
-// #define _XTAL_FREQ 48000000
 #ifndef _XTAL_FREQ
 #define _XTAL_FREQ 8000000  // 8Mhz 
 #endif

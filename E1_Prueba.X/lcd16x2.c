@@ -59,26 +59,23 @@ void Lcd16x2_loop(void) {
     //*
 #ifdef LCD_I2C
     Lcd_Set_Cursor(&lcd1, 1, 1); /// Cursor at row 1, col 1
-    __delay_ms(300);  // wait for 3sec
+    __delay_ms(50);  // wait for 3sec
     Lcd_Write_String(&lcd1, "Hola UTP2a!!!"); // escribe Hola UTP!!!
-    __delay_ms(3000);  // wait for 3sec
-    Lcd_Clear(&lcd1);
-    __delay_ms(2000);  // wait for 3sec
+    __delay_ms(50);  // wait for 3sec
 
+    Lcd_Set_Cursor(&lcd2, 1, 1); /// Cursor at row 1, col 1
+    __delay_ms(50);  // wait for 3sec
     Lcd_Write_String(&lcd2, "Hola UTP2c!!!"); // escribe Hola UTP!!!
-    __delay_ms(3000);  // wait for 3sec
-    Lcd_Clear(&lcd2);
-    __delay_ms(2000);  // wait for 3sec
+    __delay_ms(50);  // wait for 3sec
 #endif
 
 #ifdef LCD_BUS
     L1Lcd_Set_Cursor(1, 1); /// Cursor at row 1, col 1
-    __delay_ms(300);  // wait for 3sec
+    __delay_ms(50);  // wait for 3sec
     L1Lcd_Write_String("Hola UTP2b!!!"); // escribe Hola UTP!!!
-    __delay_ms(3000);  // wait for 3sec
-    L1Lcd_Clear();
-    __delay_ms(2000);  // wait for 3sec
+    __delay_ms(50);  // wait for 3sec
 #endif
+    __delay_ms(3000);  // wait for 3sec
     
 //    for (char c=0; c<=4; c++) {
 //        Lcd_Shift_Right();
@@ -96,4 +93,19 @@ void Lcd16x2_loop(void) {
     __delay_ms(1000);
     Lcd_Clear();
     //*/
+    
+ #ifdef LCD_I2C
+   Lcd_Clear(&lcd1);
+    __delay_ms(50);  // wait 
+    Lcd_Clear(&lcd2);
+    __delay_ms(50);  // wait 
+#endif
+    
+ #ifdef LCD_BUS
+   L1Lcd_Clear();
+    __delay_ms(50);  // wait 
+#endif
+
+    __delay_ms(2000);  // wait for 2 sec
+
 }
