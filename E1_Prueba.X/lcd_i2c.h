@@ -7,21 +7,25 @@
 */
 
 #ifndef LCD_I2C_H
-#define	LCD_I2C_H
+#define LCD_I2C_H
 
-#define ADDRESS_LCD 0x4E //0x27 
+#include <stdint.h>
 
-void Lcd_Init(void);
-void Lcd_Cmd(unsigned char cmd);
-void Lcd_Set_Cursor(char col, char row);
-void Lcd_Write_Char(char c);
-void Lcd_Write_String(const char *str);
-void Lcd_Clear(void);
-void Lcd_Shift_Right(void);
-void Lcd_Shift_Left(void);
-void Lcd_Blink(void);
-void Lcd_NoBlink(void);
-void Lcd_CGRAM_WriteChar(char n);
-void Lcd_CGRAM_CreateChar(char pos, const char* new_char);
+typedef struct {
+    uint8_t address;
+} Lcd_I2C;
+
+void Lcd_Init(Lcd_I2C* lcd);
+void Lcd_Cmd(Lcd_I2C* lcd, unsigned char cmd);
+void Lcd_Set_Cursor(Lcd_I2C* lcd, char col, char row);
+void Lcd_Write_Char(Lcd_I2C* lcd, char c);
+void Lcd_Write_String(Lcd_I2C* lcd, const char *str);
+void Lcd_Clear(Lcd_I2C* lcd);
+void Lcd_Shift_Right(Lcd_I2C* lcd);
+void Lcd_Shift_Left(Lcd_I2C* lcd);
+void Lcd_Blink(Lcd_I2C* lcd);
+void Lcd_NoBlink(Lcd_I2C* lcd);
+void Lcd_CGRAM_WriteChar(Lcd_I2C* lcd, char n);
+void Lcd_CGRAM_CreateChar(Lcd_I2C* lcd, char pos, const char* new_char);
 
 #endif

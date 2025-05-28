@@ -21,18 +21,28 @@ const unsigned char cara[] = {
   0x1F
 };
 
+Lcd_I2C lcd1 = { .address = 0x4E };
+Lcd_I2C lcd2 = { .address = 0x4C };
+
 // lcd 16x2 HD44780U
 void Lcd16x2_init(void) {
     ADCON1bits.PCFG = 0x0F; // config all pins as digital
 #ifdef LCD_I2C
     I2C_Init_Master(I2C_100KHZ);
     //__delay_ms(100);
-    Lcd_Init();
+    Lcd_Init(&lcd1);
     __delay_ms(100);
-    Lcd_Clear();
+    Lcd_Clear(&lcd1);
+    __delay_ms(100);
 //    Lcd_CGRAM_Init();
 //    Lcd_CGRAM_CreateChar(0, cara);
 //    Lcd_CGRAM_Close();
+
+    //__delay_ms(100);
+    Lcd_Init(&lcd2);
+    __delay_ms(100);
+    Lcd_Clear(&lcd2);
+    __delay_ms(100);
 #endif
     
 #ifdef LCD_BUS
@@ -48,11 +58,16 @@ void Lcd16x2_loop(void) {
     __delay_ms(100);  // wait for 3sec
     //*
 #ifdef LCD_I2C
-    Lcd_Set_Cursor(1, 1); /// Cursor at row 1, col 1
+    Lcd_Set_Cursor(&lcd1, 1, 1); /// Cursor at row 1, col 1
     __delay_ms(300);  // wait for 3sec
-    Lcd_Write_String("Hola UTP2a!!!"); // escribe Hola UTP!!!
+    Lcd_Write_String(&lcd1, "Hola UTP2a!!!"); // escribe Hola UTP!!!
     __delay_ms(3000);  // wait for 3sec
-    Lcd_Clear();
+    Lcd_Clear(&lcd1);
+    __delay_ms(2000);  // wait for 3sec
+
+    Lcd_Write_String(&lcd2, "Hola UTP2c!!!"); // escribe Hola UTP!!!
+    __delay_ms(3000);  // wait for 3sec
+    Lcd_Clear(&lcd2);
     __delay_ms(2000);  // wait for 3sec
 #endif
 
