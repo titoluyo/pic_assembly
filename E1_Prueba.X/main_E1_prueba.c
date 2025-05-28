@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pic18f4550.h>
-#include "configuration.h"
+#include "config.h"
 //#include "semaforo.h"
 //#include "led7seg.h"
 //#include "mux2.h"

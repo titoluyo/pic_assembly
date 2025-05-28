@@ -1,5 +1,5 @@
-#ifndef CONFIGURATION_H
-#define	CONFIGURATION_H
+#ifndef CONFIG_H
+#define	CONFIG_H
 
 // PIC18F4550 Configuration Bit Settings
 
@@ -70,5 +70,5 @@
 
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
-#endif	/* CONFIGURATION_H */
+#endif	/* CONFIG_H */
 

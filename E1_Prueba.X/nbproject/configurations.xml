@@ -24,7 +24,6 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main_E1_prueba.c</itemPath>
-      <itemPath>configuration.h</itemPath>
       <itemPath>semaforo.c</itemPath>
       <itemPath>led7seg.c</itemPath>
       <itemPath>mux2.c</itemPath>
@@ -32,6 +31,7 @@
       <itemPath>i2c.c</itemPath>
       <itemPath>lcd_i2c.c</itemPath>
       <itemPath>lcd.c</itemPath>
+      <itemPath>config.h</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>

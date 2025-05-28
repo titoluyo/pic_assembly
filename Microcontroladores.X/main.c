@@ -11,29 +11,29 @@
 #define _XTAL_FREQ 8000000  // 8 MHz crystal frequency
 
 // LCD control pins (adjust as needed)
-#define LCD_RS LATBbits.LATB5
-#define LCD_RW LATBbits.LATB4
-#define LCD_EN LATBbits.LATB3
+#define RS LATBbits.LB5
+#define RW LATBbits.LB4
+#define EN LATBbits.LB3
 #define LCD_DATA LATD          // Assuming LCD data pins on PORTD
 
 void lcd_pulse_enable(void) {
-    LCD_EN = 1;
+    EN = 1;
     __delay_us(1);
-    LCD_EN = 0;
+    EN = 0;
     __delay_us(100);
 }
 
 void lcd_cmd(uint8_t cmd) {
-    LCD_RS = 0;
-    LCD_RW = 0; // Force write
+    RS = 0;
+    RW = 0; // Force write
     LCD_DATA = cmd;
     lcd_pulse_enable();
     __delay_ms(2); // Some commands require longer delays
 }
 
 void lcd_data(uint8_t data) {
-    LCD_RS = 1;
-    LCD_RW = 0; // Force write
+    RS = 1;
+    RW = 0; // Force write
     LCD_DATA = data;
     lcd_pulse_enable();
     __delay_us(100);
@@ -41,7 +41,7 @@ void lcd_data(uint8_t data) {
 
 void lcd_init(void) {
     __delay_ms(20);         // Wait after power on
-    LCD_RW = 0;
+    RW = 0;
     __delay_ms(20);
     lcd_cmd(0x38);          // Function set: 8-bit, 2 lines, 5x8 dots
     lcd_cmd(0x08);          // Display off
@@ -73,7 +73,7 @@ void main(void) {
     lcd_init();
 
     lcd_write_string("HELLO", 0);
-    lcd_write_string("WORLD3", 1);
+    lcd_write_string("WORLD5", 1);
 
     while (1);
 }
