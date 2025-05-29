@@ -2,6 +2,8 @@
 #include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdarg.h>
+#include <stdio.h>
 #include <string.h>
 
 void lcd_write_nibble(uint8_t nibble) {
@@ -79,4 +81,52 @@ void lcd_write_string(const char* str, uint8_t row) {
     while (*str) {
         lcd_data(*str++);
     }
+}
+
+void lcd_clear(void) {
+    lcd_cmd(0x01);
+    __delay_ms(2);
+}
+
+void lcd_home(void) {
+    lcd_cmd(0x02);
+    __delay_ms(2);
+}
+
+void lcd_putch(char c) {
+    lcd_data(c);
+}
+
+void lcd_putnum(uint16_t num) {
+    char buffer[6];
+    sprintf(buffer, "%u", num);
+    lcd_write_string(buffer, 0); // Writes on row 0 by default
+}
+
+// Simple printf-style interface for static strings
+void lcd_printf(const char* format, ...) {
+    char buffer[32];
+    va_list args;
+    va_start(args, format);
+    vsnprintf(buffer, sizeof(buffer), format, args);
+    va_end(args);
+    lcd_write_string(buffer, 0); // Writes on row 0 by default
+}
+
+void lcd_shift_right(void) {
+    lcd_cmd(0x01); // Clear display
+    lcd_cmd(0x0C); // Display ON, cursor OFF
+}
+
+void lcd_shift_left(void) {
+    lcd_cmd(0x01); // Clear display
+    lcd_cmd(0x08); // Display OFF
+}
+
+void lcd_blink(void) {
+    lcd_cmd(0x0F); // Display ON, cursor ON, blinking ON
+}
+
+void lcd_no_blink(void) {
+    lcd_cmd(0x0C); // Display ON, cursor OFF, blinking OFF
 }

@@ -33,4 +33,15 @@ void lcd_data(uint8_t data);
 void lcd_set_cursor(uint8_t row, uint8_t col);
 void lcd_write_string(const char* str, uint8_t row);
 
+void lcd_clear(void);
+void lcd_home(void);
+void lcd_putch(char c);
+void lcd_putnum(uint16_t num);
+void lcd_printf(const char* format, ...); // Optional, requires stdarg and stdio
+
+void lcd_shift_right(void);
+void lcd_shift_left(void);
+void lcd_blink(void);
+void lcd_no_blink(void);
+
 #endif
