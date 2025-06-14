@@ -4,12 +4,8 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>led7seg.h</itemPath>
-      <itemPath>mux2.h</itemPath>
-      <itemPath>semaforo.h</itemPath>
       <itemPath>i2c.h</itemPath>
       <itemPath>lcd_i2c.h</itemPath>
-      <itemPath>lcd.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -23,15 +19,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>main_E1_prueba.c</itemPath>
-      <itemPath>semaforo.c</itemPath>
-      <itemPath>led7seg.c</itemPath>
-      <itemPath>mux2.c</itemPath>
-      <itemPath>lcd16x2.c</itemPath>
       <itemPath>i2c.c</itemPath>
-      <itemPath>lcd_i2c.c</itemPath>
-      <itemPath>lcd.c</itemPath>
       <itemPath>config.h</itemPath>
+      <itemPath>main_lab2.c</itemPath>
+      <itemPath>lcd_i2c.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
