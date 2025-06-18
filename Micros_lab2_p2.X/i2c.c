@@ -49,7 +49,7 @@ void I2C_Ack(void)
 {
     SSPCON2bits.ACKDT = 0;
 	SSPCON2bits.ACKEN = 1;
-	while(PIR1bits.SSPIF == 0);
+	while(PIR1bits.SSPIF == 0){};
     PIR1bits.SSPIF = 0;
 }
 
@@ -57,7 +57,7 @@ void I2C_Nack(void)
 {
     SSPCON2bits.ACKDT = 1;
 	SSPCON2bits.ACKEN = 1;
-	while(PIR1bits.SSPIF == 0);
+	while(PIR1bits.SSPIF == 0){};
     PIR1bits.SSPIF = 0;
 }
 

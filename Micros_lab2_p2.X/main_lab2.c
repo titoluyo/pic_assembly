@@ -18,16 +18,16 @@ void main(void) {
     I2C_Init_Master(I2C_100KHZ);
 
     Lcd_Init(&lcd1);
-    __delay_ms(100);
+    // __delay_ms(100);
     Lcd_Clear(&lcd1);
-    __delay_ms(100);
+    // __delay_ms(100);
     
     Lcd_Init(&lcd2);
-    __delay_ms(100);
+    // __delay_ms(100);
     Lcd_Clear(&lcd2);
-    __delay_ms(100);
+    // __delay_ms(100);
 
-    Lcd_Write_String(&lcd1, "Hola UTP I2C");
+    Lcd_Write_String(&lcd1, "Hola UTP I2C 2");
 
     Lcd_Write_String(&lcd2, "29-05-25");
     
