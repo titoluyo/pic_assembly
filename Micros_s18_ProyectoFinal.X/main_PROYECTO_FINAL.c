@@ -1,40 +1,40 @@
-#include "config.h"
-#include "i2c.h"
-#include "lcd_i2c.h"
-#include "adc.h"
-#include "uart.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <math.h>
+#include "config.h"         // Configuracion de los bits del microcontrolador
+#include "i2c.h"            // Funciones para comunicacion I2C
+#include "lcd_i2c.h"        // Controlador de pantalla LCD por I2C
+#include "adc.h"            // Funciones para ADC (conversion analogica-digital)
+#include "uart.h"           // Funciones para comunicacion serial UART
+#include <stdbool.h>        // Libreria para usar tipo de dato booleano
+#include <stdio.h>          // Para usar sprintf()
+#include <math.h>           // Para funciones matematicas
 
 #ifndef _XTAL_FREQ
-#define _XTAL_FREQ 48000000
+#define _XTAL_FREQ 48000000 // Frecuencia del oscilador
 #endif
 
-#define baudios 9600
+char buffer[30];            // Cadena de texto para enviar por UART
 
-char buffer[30]; // store string to send through serial port
-
-unsigned int adc;
-float voltaje = 0;
-float lux = 0;
-bool valido = 0;
+unsigned int adc;           // Valor leido del ADC
+float voltaje = 0;          // Valor convertido a voltaje
+float lux = 0;              // Valor convertido a lux
+bool valido = 0;            // Bandera para indicar si la lectura es valida
 
 void main(void) {
-    ADC_Init();
-    UART_Init();
+    ADC_Init();             // Inicializa modulo ADC
+    UART_Init();            // Inicializa modulo UART
     
-    I2C_Init_Master(I2C_100KHZ);
-    Lcd_Init();
-    Lcd_Clear();
-    __delay_ms(100);
+    I2C_Init_Master(I2C_100KHZ); // Inicializa I2C como maestro a 100 kHz
+    Lcd_Init();             // Inicializa pantalla LCD
+    Lcd_Clear();            // Limpia pantalla
+    __delay_ms(100);        // Espera para estabilizar
 
-    while (1) {
-        valido = 0;
-        adc = ADC_Read(0);
-        voltaje = adc * 5.0f / 1023.0f;
+    while (1) {             // Bucle principal infinito
+        valido = 0;         // Reinicia la bandera de validacion
+        adc = ADC_Read(0);  // Lee canal AN0 (ADC)
+        voltaje = adc * 5.0f / 1023.0f; // Convierte ADC a voltaje (0-5V)
 
-        //AN0:
+        // A partir del voltaje, se selecciona un rango para aplicar formula de conversion a lux
+        // Cada rango aplica una ecuacion cuadratica ajustada experimentalmente (Excel)
+
         //0-24
         if (voltaje >= 0 && voltaje < 1.91641) {
             lux = (voltaje * 11.811) - 0.3;
@@ -121,13 +121,15 @@ void main(void) {
             lux = (voltaje * voltaje)*(10127.0) - (voltaje * 90991.0) + 205023.0;
             valido = 1;
         }
+        
+        // Si la lectura fue valida, se envian y muestran los resultados
         if (valido) {
             sprintf(buffer, "Lux: %.0f  ADC0 : %d  Voltaje: %.6f v6\r\n", lux, adc, voltaje);
-            Uart_SString(buffer);
+            Uart_SString(buffer);         // Envia resultado por UART
             sprintf(buffer, "Lux: %.0f  ", lux);
-            Lcd_Set_Cursor(1, 1);
-            Lcd_Write_String(buffer);
-            __delay_ms(100);
+            Lcd_Set_Cursor(1, 1);         // Mueve cursor a linea 1, columna 1
+            Lcd_Write_String(buffer);     // Muestra el valor de lux en la pantalla
+            __delay_ms(100);              // Espera antes de la siguiente lectura
         }        
     }
     return;
