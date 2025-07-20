@@ -1,27 +1,19 @@
-/* #include "lcd_i2c.h"
-*
-* Creada por: Ing. Abiezer Hernandez O.
-* Fecha de creacion: 05/12/2019
-* Electronica y Circuitos
-*
-*/
-
 #ifndef LCD_I2C_H
 #define	LCD_I2C_H
 
-#define ADDRESS_LCD 0x4E
+#define ADDRESS_LCD 0x4E // Direccion I2C del modulo LCD con backpack PCF8574
 
-void Lcd_Init(void);
-void Lcd_Cmd(unsigned char cmd);
-void Lcd_Set_Cursor(char col, char row);
-void Lcd_Write_Char(char c);
-void Lcd_Write_String(const char *str);
-void Lcd_Clear(void);
-void Lcd_Shift_Right(void);
-void Lcd_Shift_Left(void);
-void Lcd_Blink(void);
-void Lcd_NoBlink(void);
-void Lcd_CGRAM_WriteChar(char n);
-void Lcd_CGRAM_CreateChar(char pos, const char* new_char);
+void Lcd_Init(void);                     // Inicializa el LCD
+void Lcd_Cmd(unsigned char cmd);         // Envia un comando al LCD (ej. limpiar, cursor, etc)
+void Lcd_Set_Cursor(char col, char row); // Posiciona el cursor en la columna y fila especificadas
+void Lcd_Write_Char(char c);             // Escribe un caracter en la posicion actual del cursor
+void Lcd_Write_String(const char *str);  // Escribe una cadena de texto desde un puntero
+void Lcd_Clear(void);                    // Limpia la pantalla
+void Lcd_Shift_Right(void);              // Desplaza el texto hacia la derecha
+void Lcd_Shift_Left(void);               // Desplaza el texto hacia la izquierda
+void Lcd_Blink(void);                    // Activa el parpadeo del cursor
+void Lcd_NoBlink(void);                  // Desactiva el parpadeo del cursor
+void Lcd_CGRAM_WriteChar(char n);        // Escribe un caracter personalizado desde CGRAM
+void Lcd_CGRAM_CreateChar(char pos, const char* new_char); // Crea un caracter personalizado en la posicion dada de CGRAM
 
 #endif

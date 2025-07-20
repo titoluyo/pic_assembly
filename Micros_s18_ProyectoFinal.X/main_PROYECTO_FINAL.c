@@ -124,7 +124,7 @@ void main(void) {
         
         // Si la lectura fue valida, se envian y muestran los resultados
         if (valido) {
-            sprintf(buffer, "Lux: %.0f  ADC0 : %d  Voltaje: %.6f v6\r\n", lux, adc, voltaje);
+            sprintf(buffer, "Lux: %.0f  ADC0 : %d  Voltaje: %.6f v7\r\n", lux, adc, voltaje);
             Uart_SString(buffer);         // Envia resultado por UART
             sprintf(buffer, "Lux: %.0f  ", lux);
             Lcd_Set_Cursor(1, 1);         // Mueve cursor a linea 1, columna 1

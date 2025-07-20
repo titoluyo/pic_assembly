@@ -13,7 +13,7 @@ void ADC_Init(void) {
 uint16_t ADC_Read(unsigned char ch) {
     uint16_t result = 0;                        // Declara e inicializa resultado
     if (ch <= 13) {                             // Verifica canal valido
-        ADCON0 = (ch << 2);                     // Selecciona el canal deseado
+        ADCON0 = (unsigned char)(ch << 2);      // Selecciona el canal deseado
         ADCON0bits.ADON = 1;                    // Habilita el ADC
         __delay_us(20);                         // Espera para adquirir muestra
         ADCON0bits.GO_DONE = 1;                 // Inicia conversion
