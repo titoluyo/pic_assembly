@@ -1,4 +1,3 @@
-//*
 #include <xc.h>
 
 #ifndef _XTAL_FREQ
@@ -6,11 +5,9 @@
 #endif
 
 void ADC_Init(void) {
-    // ADC initialize
     ADCON0 = 0x00; // AN0
     ADCON1 = 0x0E;
     ADCON2 = 0x8F; // 1000 1111
-    //ADCON2 = 0xA9; // 1010 1001
 }
 
 uint16_t ADC_Read(unsigned char ch) {
@@ -25,4 +22,3 @@ uint16_t ADC_Read(unsigned char ch) {
     }
     return result;
 }
-//*/

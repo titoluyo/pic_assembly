@@ -3,6 +3,7 @@
 #include "lcd_i2c.h"
 #include "adc.h"
 #include "uart.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
 
@@ -17,7 +18,7 @@ char buffer[30]; // store string to send through serial port
 unsigned int adc;
 float voltaje = 0;
 float lux = 0;
-char valido = 0;
+bool valido = 0;
 
 void main(void) {
     ADC_Init();
@@ -26,14 +27,12 @@ void main(void) {
     I2C_Init_Master(I2C_100KHZ);
     Lcd_Init();
     Lcd_Clear();
-    Lcd_Set_Cursor(0, 1);
     __delay_ms(100);
 
     while (1) {
+        valido = 0;
         adc = ADC_Read(0);
         voltaje = adc * 5.0f / 1023.0f;
-        sprintf(buffer, "ADC0 : %d   Voltaje: %.6f\r\n", adc, voltaje);
-        Uart_SString(buffer);
 
         //AN0:
         //0-24
@@ -123,15 +122,13 @@ void main(void) {
             valido = 1;
         }
         if (valido) {
-            sprintf(buffer, " Lux: %.0f\r\n", lux);
+            sprintf(buffer, "Lux: %.0f  ADC0 : %d  Voltaje: %.6f v6\r\n", lux, adc, voltaje);
             Uart_SString(buffer);
-            __delay_ms(100);
+            sprintf(buffer, "Lux: %.0f  ", lux);
             Lcd_Set_Cursor(1, 1);
-            __delay_ms(100);
             Lcd_Write_String(buffer);
-            __delay_ms(200);
-
-        }
+            __delay_ms(100);
+        }        
     }
     return;
 }
