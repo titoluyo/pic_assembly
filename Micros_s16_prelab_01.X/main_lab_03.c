@@ -1,6 +1,3 @@
-#ifndef CONFIG_H
-#define	CONFIG_H
-
 // PIC18F4550 Configuration Bit Settings
 
 // 'C' source line config statements
@@ -11,8 +8,7 @@
 #pragma config USBDIV = 1       // USB Clock Selection bit (used in Full-Speed USB mode only; UCFG:FSEN = 1) (USB clock source comes directly from the primary oscillator block with no postscale)
 
 // CONFIG1H
-#pragma config FOSC = HS        // Oscillator Selection bits (HS oscillator (HS))
-// #pragma config FOSC = XT_XT        // Oscillator Selection bits (HS oscillator (HS))
+#pragma config FOSC = HSPLL_HS  // Oscillator Selection bits (HS oscillator, PLL enabled (HSPLL))
 #pragma config FCMEN = OFF      // Fail-Safe Clock Monitor Enable bit (Fail-Safe Clock Monitor disabled)
 #pragma config IESO = OFF       // Internal/External Oscillator Switchover bit (Oscillator Switchover mode disabled)
 
@@ -34,7 +30,7 @@
 
 // CONFIG4L
 #pragma config STVREN = ON      // Stack Full/Underflow Reset Enable bit (Stack full/underflow will cause Reset)
-#pragma config LVP = OFF         // Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
+#pragma config LVP = ON         // Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
 #pragma config ICPRT = OFF      // Dedicated In-Circuit Debug/Programming Port (ICPORT) Enable bit (ICPORT disabled)
 #pragma config XINST = OFF      // Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode disabled (Legacy mode))
 
@@ -70,5 +66,95 @@
 
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
-//#endif	/* CONFIG_H */
 
+#include <xc.h>
+
+#include "i2c.h"
+#include "lcd_i2c.h"
+#include <stdio.h>
+#pragma config FOSC = HSPLL_HS  // Oscillator Selection bits (HS oscillator, PLL enabled (HSPLL))
+#pragma config WDT = OFF        // Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDTEN bit))
+
+#ifndef _XTAL_FREQ
+#define _XTAL_FREQ 48000000
+#endif
+
+#define baudios 9600
+
+Lcd_I2C lcd1 = { .address = 0x4C };
+
+uint16_t ADC_Read(unsigned char ch);
+void Uart_SChar(char txChar);
+void Uart_SString(char *txString);
+char buffer[30]; // store string to send through serial port
+unsigned int valor;
+unsigned int adc;
+float voltaje;
+float temperatura;
+
+void main(void) {
+    // ADC initialize
+    ADCON0 = 0x00; // AN0
+    ADCON1 = 0x0E;
+    ADCON2 = 0x8F; // 1000 1111
+    
+    // I2C LCD Display
+    I2C_Init_Master(I2C_100KHZ);
+    Lcd_Init(&lcd1);
+    Lcd_Clear(&lcd1);
+    Lcd_Set_Cursor(&lcd1,0,1);
+    __delay_ms(100);
+    
+    // Serial initialize
+    TRISCbits.RC6 = 0; // Output
+    TRISCbits.RC7 = 1; // Input
+    TXSTA = 0x24; // B 0010 0100
+    RCSTA = 0x90; // B 1001 0000
+    BAUDCON = 0x00; // 0000 0000 reset device
+    BAUDCONbits.BRG16 = 1;
+    valor = 1249;
+    SPBRG = valor & 0x00FF;
+    SPBRGH = valor >> 8;
+
+    while(1){
+        adc = ADC_Read(0);
+        voltaje = adc*5.0/1023.0;
+        temperatura = voltaje*(150.0+55.0)/5.0-55;
+        
+        sprintf(buffer," Temperatura: %.0f\r\n", temperatura);
+        Uart_SString(buffer);
+        
+        __delay_ms(100);
+        Lcd_Set_Cursor(&lcd1,0,1);
+        __delay_ms(100);
+        Lcd_Write_String(&lcd1, buffer);
+        __delay_ms(200);
+    }
+
+    return;
+}
+
+uint16_t ADC_Read(unsigned char ch){
+    uint16_t result;
+    if(ch > 13){
+        result = 0;
+    } else {
+        ADCON0 = 0x00;
+        ADCON0 = (unsigned char)(ch << 2);
+        ADCON0bits.ADON = 1; // turn on ADC
+        ADCON0bits.GO_DONE = 1;
+        while(ADCON0bits.GO_DONE == 1); // while it's busy
+        //result = ( ( ADRESH << 8 ) + ADRESL );
+        result = ADRES;
+    }
+    return result;
+}
+void Uart_SChar(char txChar){
+    while (TXSTAbits.TRMT == 0);
+    TXREG = txChar;    
+}
+void Uart_SString(char *txString){
+    while (*txString != '\0'){
+        Uart_SChar(*txString++);
+    }
+}

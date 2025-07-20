@@ -16,7 +16,7 @@
 #define _XTAL_FREQ 48000000  
 #define baudios 9600
 
-unsigned int ADC_Read(unsigned char ch);
+uint16_t ADC_Read(unsigned char ch);
 void Uart_SChar(char txChar);
 void Uart_SString(char *txString);
 char buffer[30]; // store string to send through serial port
@@ -25,9 +25,10 @@ unsigned int adc;
 
 void main(void) {
     // ADC initialize
-    ADCON0 = 0x00;
+    ADCON0 = 0x00; // AN0
     ADCON1 = 0x0E;
-    ADCON2 = 0x8F;
+    ADCON2 = 0x8F; // 1000 1111
+    ADCON2 = 0xA9; // 1010 1001
     
     // Serial initialize
     TRISCbits.RC6 = 0; // Output
@@ -36,7 +37,7 @@ void main(void) {
     RCSTA = 0x90; // B 1001 0000
     BAUDCON = 0x00; // 0000 0000 reset device
     BAUDCONbits.BRG16 = 1;
-    valor = 1249; //(_XTAL_FREQ/(baudios*4))-1;
+    valor = 1249; // (unsigned int)((float)_XTAL_FREQ/(float)(baudios*4))-1; // 1249;
     SPBRG = valor & 0x00FF;
     SPBRGH = valor >> 8;
 
@@ -50,18 +51,20 @@ void main(void) {
     return;
 }
 
-unsigned int ADC_Read(unsigned char ch){
+uint16_t ADC_Read(unsigned char ch){
+    uint16_t result;
     if(ch > 13){
-        return 0;
+        result = 0;
     } else {
         ADCON0 = 0x00;
         ADCON0 = (unsigned char)(ch << 2);
         ADCON0bits.ADON = 1; // turn on ADC
         ADCON0bits.GO_DONE = 1;
         while(ADCON0bits.GO_DONE == 1); // while it's busy
-        return ADRES;
+        result = ( ( ADRESH << 8 ) + ADRESL );
+        result = ADRES;
     }
-    
+    return result;
 }
 void Uart_SChar(char txChar){
     while (TXSTAbits.TRMT == 0);

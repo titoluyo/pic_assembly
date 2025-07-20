@@ -8,9 +8,9 @@ void main(void) {
     ADCON1bits.PCFG = 0x0F;       // Todos los pines como digitales
     TRISCbits.TRISC2 = 0;         // RC2 como salida (PWM CCP1)
 
-    PR2 = 124;                    // Para 1 kHz con prescaler 16
+    PR2 = 249;                    // Para 1 kHz con prescaler 16
     TMR2 = 0;                     // Reiniciar Timer2
-    CCPR1L = 31;                  // ~50% duty cycle
+    CCPR1L = 125;                  // ~50% duty cycle
 
     CCP1CONbits.DC1B1 = 0;        // Bits menos significativos del duty
     CCP1CONbits.DC1B0 = 0;

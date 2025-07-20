@@ -1,3 +1,10 @@
+/* 
+ * File:   config.h
+ * Author: tito.luyo
+ *
+ * Created on July 19, 2025, 8:38 PM
+ */
+
 #ifndef CONFIG_H
 #define	CONFIG_H
 
@@ -11,8 +18,7 @@
 #pragma config USBDIV = 1       // USB Clock Selection bit (used in Full-Speed USB mode only; UCFG:FSEN = 1) (USB clock source comes directly from the primary oscillator block with no postscale)
 
 // CONFIG1H
-#pragma config FOSC = HS        // Oscillator Selection bits (HS oscillator (HS))
-// #pragma config FOSC = XT_XT        // Oscillator Selection bits (HS oscillator (HS))
+#pragma config FOSC = HSPLL_HS  // Oscillator Selection bits (HS oscillator, PLL enabled (HSPLL))
 #pragma config FCMEN = OFF      // Fail-Safe Clock Monitor Enable bit (Fail-Safe Clock Monitor disabled)
 #pragma config IESO = OFF       // Internal/External Oscillator Switchover bit (Oscillator Switchover mode disabled)
 
@@ -34,7 +40,7 @@
 
 // CONFIG4L
 #pragma config STVREN = ON      // Stack Full/Underflow Reset Enable bit (Stack full/underflow will cause Reset)
-#pragma config LVP = OFF         // Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
+#pragma config LVP = ON         // Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
 #pragma config ICPRT = OFF      // Dedicated In-Circuit Debug/Programming Port (ICPORT) Enable bit (ICPORT disabled)
 #pragma config XINST = OFF      // Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode disabled (Legacy mode))
 
@@ -70,5 +76,8 @@
 
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
-//#endif	/* CONFIG_H */
+
+#include <xc.h>
+
+#endif	/* CONFIG_H */
 
