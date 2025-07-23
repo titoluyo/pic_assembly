@@ -6,7 +6,7 @@
 
 void ADC_Init(void) {
     ADCON0 = 0x00;     // Selecciona AN0 como canal inicial
-    ADCON1 = 0x0E;     // AN0 como entrada analogica, el resto digitales
+    ADCON1 = 0x0D;     // AN0 y AN1 como entrada analogica, el resto digitales
     ADCON2 = 0x8F;     // 1000 1111 Justificacion derecha, Fosc/32, tiempo de adquisicion
 }
 

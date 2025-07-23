@@ -3,7 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/tito.luyo/OneDrive%20-%20Universidad%20Tecnologica%20del%20Peru/2025-1/Microcontroladores/proyecto/main_PROYECTO_FINAL.c</file>
+            <file>file:/C:/Users/tito.luyo/work/pic_assembly/Micros_s18_ProyectoFinal.X/lcd_i2c.h</file>
+            <file>file:/C:/Users/tito.luyo/work/pic_assembly/Micros_s18_ProyectoFinal.X/uart.c</file>
+            <file>file:/C:/Users/tito.luyo/work/pic_assembly/Micros_s18_ProyectoFinal.X/adc.c</file>
+            <file>file:/C:/Users/tito.luyo/work/pic_assembly/Micros_s18_ProyectoFinal.X/lcd_i2c.c</file>
+            <file>file:/C:/Users/tito.luyo/work/pic_assembly/Micros_s18_ProyectoFinal.X/adc.h</file>
+            <file>file:/C:/Users/tito.luyo/work/pic_assembly/Micros_s18_ProyectoFinal.X/i2c.c</file>
+            <file>file:/C:/Users/tito.luyo/work/pic_assembly/Micros_s18_ProyectoFinal.X/config.h</file>
+            <file>file:/C:/Users/tito.luyo/work/pic_assembly/Micros_s18_ProyectoFinal.X/main_PROYECTO_FINAL.c</file>
+            <file>file:/C:/Users/tito.luyo/work/pic_assembly/Micros_s18_ProyectoFinal.X/i2c.h</file>
+            <file>file:/C:/Users/tito.luyo/work/pic_assembly/Micros_s18_ProyectoFinal.X/uart.h</file>
         </group>
     </open-files>
 </project-private>
